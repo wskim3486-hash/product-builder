@@ -5,8 +5,14 @@ const pickButton = document.querySelector("#pickButton");
 const partnerForm = document.querySelector("#partnerForm");
 const partnerSubmit = document.querySelector("#partnerSubmit");
 const formStatus = document.querySelector("#formStatus");
+const commentForm = document.querySelector("#commentForm");
+const commentName = document.querySelector("#commentName");
+const commentMessage = document.querySelector("#commentMessage");
+const commentCount = document.querySelector("#commentCount");
+const commentsList = document.querySelector("#commentsList");
 
 const numbers = Array.from({ length: 99 }, (_, index) => index + 1);
+const commentsStorageKey = "fan-number-picker-comments";
 
 function randomBetween(min, max) {
   return Math.random() * (max - min) + min;
@@ -28,6 +34,65 @@ function createNumberChip(number) {
 
 function resetNumbers() {
   numbersEl.replaceChildren(...numbers.map(createNumberChip));
+}
+
+function getComments() {
+  try {
+    return JSON.parse(localStorage.getItem(commentsStorageKey)) ?? [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function saveComments(comments) {
+  localStorage.setItem(commentsStorageKey, JSON.stringify(comments));
+}
+
+function formatCommentDate(isoDate) {
+  return new Intl.DateTimeFormat("ko-KR", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(new Date(isoDate));
+}
+
+function renderComments() {
+  const comments = getComments();
+  commentCount.textContent = `${comments.length}개`;
+
+  if (comments.length === 0) {
+    const empty = document.createElement("p");
+    empty.className = "comment-empty";
+    empty.textContent = "아직 댓글이 없습니다. 첫 응원 댓글을 남겨주세요.";
+    commentsList.replaceChildren(empty);
+    return;
+  }
+
+  const items = comments.map((comment) => {
+    const item = document.createElement("article");
+    item.className = "comment-item";
+
+    const meta = document.createElement("div");
+    meta.className = "comment-meta";
+
+    const author = document.createElement("span");
+    author.className = "comment-author";
+    author.textContent = comment.name;
+
+    const date = document.createElement("time");
+    date.className = "comment-date";
+    date.dateTime = comment.createdAt;
+    date.textContent = formatCommentDate(comment.createdAt);
+
+    const message = document.createElement("p");
+    message.className = "comment-message";
+    message.textContent = comment.message;
+
+    meta.append(author, date);
+    item.append(meta, message);
+    return item;
+  });
+
+  commentsList.replaceChildren(...items);
 }
 
 function pickNumber() {
@@ -88,4 +153,28 @@ partnerForm.addEventListener("submit", async (event) => {
   }
 });
 
+commentForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const name = commentName.value.trim();
+  const message = commentMessage.value.trim();
+
+  if (!name || !message) {
+    return;
+  }
+
+  const comments = getComments();
+  comments.unshift({
+    id: crypto.randomUUID(),
+    name,
+    message,
+    createdAt: new Date().toISOString(),
+  });
+
+  saveComments(comments.slice(0, 20));
+  commentForm.reset();
+  renderComments();
+});
+
 resetNumbers();
+renderComments();
