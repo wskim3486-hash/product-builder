@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fan Number Picker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <section class="stage" aria-live="polite">
+        <div class="fan" aria-hidden="true">
+          <div class="fan-head">
+            <div class="guard guard-one"></div>
+            <div class="guard guard-two"></div>
+            <div class="guard guard-three"></div>
+            <div class="blade blade-one"></div>
+            <div class="blade blade-two"></div>
+            <div class="blade blade-three"></div>
+            <div class="hub"></div>
+          </div>
+          <div class="fan-neck"></div>
+          <div class="fan-base"></div>
+        </div>
+
+        <div class="wind-lines" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+
+        <div class="numbers" id="numbers" aria-hidden="true"></div>
+
+        <div class="result-card">
+          <p class="eyebrow">1부터 99까지</p>
+          <h1>선풍기 번호 뽑기</h1>
+          <p class="result-label">오늘의 번호</p>
+          <output id="result" class="result-number">?</output>
+          <button id="pickButton" type="button">바람 켜기</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
