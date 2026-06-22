@@ -42,6 +42,48 @@
           <button id="pickButton" type="button">바람 켜기</button>
         </div>
       </section>
+
+      <section class="partner-section" aria-labelledby="partner-title">
+        <div class="partner-copy">
+          <p class="eyebrow">PARTNERSHIP</p>
+          <h2 id="partner-title">제휴 문의</h2>
+          <p>
+            번호 뽑기 이벤트, 브랜드 협업, 광고 제안이 있다면 간단히 남겨주세요.
+            확인 후 연락드리겠습니다.
+          </p>
+        </div>
+
+        <form
+          id="partnerForm"
+          class="partner-form"
+          action="https://formspree.io/f/mbdvjjkb"
+          method="POST"
+        >
+          <label>
+            이름
+            <input name="name" type="text" autocomplete="name" required />
+          </label>
+
+          <label>
+            이메일
+            <input name="email" type="email" autocomplete="email" required />
+          </label>
+
+          <label>
+            회사/브랜드
+            <input name="company" type="text" autocomplete="organization" />
+          </label>
+
+          <label>
+            문의 내용
+            <textarea name="message" rows="5" required></textarea>
+          </label>
+
+          <input type="hidden" name="_subject" value="Product Builder 제휴 문의" />
+          <button id="partnerSubmit" type="submit">문의 보내기</button>
+          <p id="formStatus" class="form-status" role="status"></p>
+        </form>
+      </section>
     </main>
 
     <script src="script.js"></script>
