@@ -84,6 +84,32 @@
           <p id="formStatus" class="form-status" role="status"></p>
         </form>
       </section>
+
+      <section class="comments-section" aria-labelledby="comments-title">
+        <div class="comments-head">
+          <div>
+            <p class="eyebrow">COMMENTS</p>
+            <h2 id="comments-title">응원 댓글</h2>
+          </div>
+          <p id="commentCount" class="comment-count">0개</p>
+        </div>
+
+        <form id="commentForm" class="comment-form">
+          <label>
+            이름
+            <input id="commentName" type="text" maxlength="24" required />
+          </label>
+
+          <label>
+            댓글
+            <textarea id="commentMessage" rows="3" maxlength="180" required></textarea>
+          </label>
+
+          <button id="commentSubmit" type="submit">댓글 남기기</button>
+        </form>
+
+        <div id="commentsList" class="comments-list"></div>
+      </section>
     </main>
 
     <script src="script.js"></script>
