@@ -2,6 +2,9 @@ const numbersEl = document.querySelector("#numbers");
 const stageEl = document.querySelector(".stage");
 const resultEl = document.querySelector("#result");
 const pickButton = document.querySelector("#pickButton");
+const partnerForm = document.querySelector("#partnerForm");
+const partnerSubmit = document.querySelector("#partnerSubmit");
+const formStatus = document.querySelector("#formStatus");
 
 const numbers = Array.from({ length: 99 }, (_, index) => index + 1);
 
@@ -53,6 +56,36 @@ function pickNumber() {
 pickButton.addEventListener("click", () => {
   resetNumbers();
   requestAnimationFrame(pickNumber);
+});
+
+partnerForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  partnerSubmit.disabled = true;
+  formStatus.classList.remove("error");
+  formStatus.textContent = "문의 내용을 보내는 중입니다...";
+
+  try {
+    const response = await fetch(partnerForm.action, {
+      method: "POST",
+      body: new FormData(partnerForm),
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Form submission failed");
+    }
+
+    partnerForm.reset();
+    formStatus.textContent = "문의가 접수되었습니다. 감사합니다.";
+  } catch (error) {
+    formStatus.classList.add("error");
+    formStatus.textContent = "전송에 실패했습니다. 잠시 후 다시 시도해주세요.";
+  } finally {
+    partnerSubmit.disabled = false;
+  }
 });
 
 resetNumbers();
